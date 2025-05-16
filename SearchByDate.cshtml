@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Search Invoices by Date Range";
+}
+<h1>Invoice Generation System</h1>
+<h2>Search Invoices by Date Range</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+<form asp-action="SearchByDate" method="post">
+    <div class="form-group">
+        <label for="startDate">Start Date:</label>
+    </div>
+        <div class="form-gropu">
+        <input type="date" id="startDate" name="startDate" required />
+    </div>
+    <div class="form-group">
+        <label for="endDate">End Date:</label>
+        </div>
+        <div class="form-group">
+        <input type="date" id="endDate" name="endDate" required />
+    </div>
+    <button type="submit">Search</button>
+</form>
+</div>
+</div>
+</div>
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="text-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <div>@error.ErrorMessage</div>
+        }
+    </div>
+}

@@ -1,0 +1,83 @@
+﻿@model IEnumerable<WebApplication1.Models.Invoice>
+
+
+@{  
+    ViewData["Title"] = "Search Results";
+}
+
+<h1>Invoice Generation System</h1>
+<h2>Search Results</h2>
+
+@if (ViewBag.Message != null)
+{
+    <div>@ViewBag.Message</div>
+}
+else if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Invoice No</th>
+                <th>Company Name</th>
+                <th>Items</th>
+                <th>Quantity</th>
+                <th>Rate</th>
+                <th>Amount</th>
+                 <th>Amount(words)</th>
+                  <th>CGST</th>
+                   <th>SGST</th>
+                    <th>CGSTAmount</th>
+                     <th>SGSTAmount</th>
+                <th>Total Amount</th>
+                 <th>Total Amount(Words)</th>
+                <!-- Add more columns as needed -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var invoice in Model)
+            {
+                <tr>
+                    <td>@invoice.Date.ToShortDateString()</td>
+                    <td>@invoice.GemInvoiceNo</td>
+                    <td>@invoice.CompanyName</td>
+                    <td>@invoice.Items</td>
+                    <td>@invoice.Qty</td>
+                    <td>@invoice.Rate</td>
+                    <td>@invoice.Amount</td>
+                    <td>@invoice.AmountInwords</td>
+                    <td>@invoice.CGST</td>
+                    <td>@invoice.SGST</td>
+                    <td>@invoice.CGSTAmount</td>
+                    <td>@invoice.SGSTAmount</td>
+                    <td>@invoice.TotalAmount</td>
+                    <td>@invoice.TotalAmountInWords</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div>No results found.</div>
+}
+
+@if (ViewBag.TotalGST != null)
+{
+    <h3>GST Summary (@ViewBag.StartDate - @ViewBag.EndDate)</h3>
+    <ul>
+        <li>Total CGST: <strong>@ViewBag.TotalCGST</strong></li>
+        <li>Total SGST: <strong>@ViewBag.TotalSGST</strong></li>
+        <li>Total GST: <strong>@ViewBag.TotalGST</strong></li>
+        <li>Total Amount: <strong>@ViewBag.TotalAmount</strong></li>
+    </ul>
+}
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="text-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <div>@error.ErrorMessage</div>
+        }
+    </div>
+}

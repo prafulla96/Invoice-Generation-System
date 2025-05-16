@@ -1,0 +1,211 @@
+﻿@model WebApplication1.Models.Invoice
+
+@{
+    ViewData["Title"] = "Create";
+ }
+ 
+ <head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+ </head>
+
+ <script>
+    function calculateAmount() {
+        const qty = parseFloat(document.getElementById("Qty").value) || 0;
+        const rate = parseFloat(document.getElementById("Rate").value) || 0;
+        document.getElementById("Amount").value = (qty * rate).toFixed(2);
+
+        updateAmountInWords();
+    }
+        function calculateGST() {
+      // Get the input values
+       var amount   = parseFloat(document.getElementById("Amount").value);
+       var CgstRate = parseFloat(document.getElementById("CGST").value);
+       var SgstRate = parseFloat(document.getElementById("SGST").value);
+
+      // Check if inputs are valid
+      if (isNaN(amount) || isNaN(CgstRate) ||  isNaN(SgstRate) || amount <= 0 || CgstRate < 0 || SgstRate < 0)
+      {
+        alert("Please enter valid values.");
+        return;
+      }
+
+      // Calculate GST amount and total
+      var CgstAmount = (amount * CgstRate ) / 100 ;
+      var SgstAmount =  (amount * SgstRate ) / 100 ;
+      var TotalGst   = CgstAmount + SgstAmount;
+      var totalAmount = amount + TotalGst;
+
+      // Display the result
+      
+        document.getElementById("CGSTAmount").value = CgstAmount.toFixed(2);
+        document.getElementById("SGSTAmount").value = SgstAmount.toFixed(2);
+      document.getElementById("TotalAmount").value = totalAmount.toFixed(2);
+
+      updateAmountInWords();
+     } 
+     function numberToWords(number) {
+        const units = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+        const teens = ["Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
+        const tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+        const indianUnits = ["", "Thousand", "Lakh", "Crore"];
+
+    if (number === 0) return "Zero";
+
+    let words = "";
+
+    function convertToWords(num) {
+        if (num < 10) return units[num];
+        if (num < 20) return teens[num - 10];
+        if (num < 100) return tens[Math.floor(num / 10)] + (num % 10 > 0 ? " " + units[num % 10] : "");
+        if (num < 1000) return units[Math.floor(num / 100)] + " Hundred" + (num % 100 > 0 ? " and " + convertToWords(num % 100) : "");
+
+        let result = "";
+        let unitIndex = 0;
+
+         while (num > 0) {
+            const part = num % (unitIndex === 0 ? 1000 : 100); // Handle "Hundred" correctly
+            if (part > 0) {
+                result = convertToWords(part) + (indianUnits[unitIndex] ? " " + indianUnits[unitIndex] : "") + (result ? " " + result : "");
+            }
+            num = Math.floor(num / (unitIndex === 0 ? 1000 : 100)); // First division by 1000, then by 100 for Lakh and Crore
+            unitIndex++;
+        }
+
+
+        return result;
+    }
+        const intPart = Math.floor(number);
+        const decimalPart = Math.round((number - intPart) * 100);
+
+        words = convertToWords(intPart);
+
+        if (decimalPart > 0) {
+            words += ` and ${convertToWords(decimalPart)} Cents`;
+        }
+
+        return words;
+    }
+
+    function updateAmountInWords() {
+        const amount = parseFloat(document.getElementById("Amount").value) || 0;
+        const totalAmount = parseFloat(document.getElementById("TotalAmount").value) || 0;
+
+        document.getElementById("AmountInWords").value = numberToWords(amount);
+        document.getElementById("TotalAmountInWords").value = numberToWords(totalAmount); 
+    }
+
+        
+</script> 
+ 
+<body>
+    <h1>Invoice Generation System</h1>
+
+<h4>Create Invoice</h4>
+<hr />
+<div class="container">
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date"  />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GemInvoiceNo" class="control-label"></label>
+                <input asp-for="GemInvoiceNo"  />
+                <span asp-validation-for="GemInvoiceNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompanyName" class="control-label"></label>
+                <input asp-for="CompanyName"  />
+                <span asp-validation-for="CompanyName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Items" class="control-label"></label>
+                <input asp-for="Items"  />
+                <span asp-validation-for="Items" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label" >Qty</label>
+                <input id="Qty" asp-for="Qty"  value="Qty" oninput="calculateAmount()"/>
+                <span asp-validation-for="Qty" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">Rate</label>
+                <input id="Rate" asp-for="Rate"   oninput="calculateAmount()"/>
+                <span asp-validation-for="Rate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label   class="control-label">Amount</label>
+                <input id="Amount" asp-for="Amount"  readonly oninput="updateAmountInWords()" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AmountInwords" class="control-label"></label>
+                <input id="AmountInWords" asp-for="AmountInwords"  readonly />
+                <span asp-validation-for="AmountInwords" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">CGST</label>
+                <select id="CGST" asp-for="CGST"  onchange="calculateGST()">
+                    <option value="0">0%</option>
+                    <option value="5">5%</option>
+                    <option value="12">12%</option>
+                    <option value="18">18%</option>
+                    <option value="28">28%</option>
+               </select>
+
+                <span asp-validation-for="CGST" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">SGST</label>
+               <select id="SGST" asp-for="SGST"  onchange="calculateGST()"> 
+                   <option value="0">0%</option>
+                   <option value="5">5%</option>
+                   <option value="12">12%</option>
+                   <option value="18">18%</option>
+                   <option value="28">28%</option>
+               </select>
+
+                <span asp-validation-for="SGST" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">CGSTAmount</label>
+                <input id="CGSTAmount" asp-for="CGSTAmount"  readonly />
+                <span asp-validation-for="CGSTAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SGSTAmount" class="control-label"></label>
+                <input id="SGSTAmount" asp-for="SGSTAmount" readonly/>
+                <span asp-validation-for="SGSTAmount" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="TotalAmount" class="control-label"></label>
+                <input id="TotalAmount" asp-for="TotalAmount"  readonly oninput="updateAmountInWords()" />
+                <span asp-validation-for="TotalAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalAmountInWords" class="control-label"></label>
+                <input id="TotalAmountInWords" asp-for="TotalAmountInWords"  readonly />
+                <span asp-validation-for="TotalAmountInWords" class="text-danger" ></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create"  />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+</div>
+</body>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

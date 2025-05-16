@@ -1,0 +1,28 @@
+﻿    @model WebApplication1.Models.Invoice
+@{
+     ViewData["Title"] = "Search";
+}
+<h1>Invoice Generation System</h1>
+<h3>Search Invoice by Invoice No.</h3>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Search Invoices</h2>
+    <form asp-action="Search" method="post">
+    
+   
+            <div class="form-group">
+                <label for="GemInvoiceNo">Search by Gem Invoice Number</label>
+                <input type="text" id="GemInvoiceNo" name="GemInvoiceNo" class="form-control" placeholder="Enter Gem Invoice Number" />
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" onclick="">Search</button>
+            </div>
+            </form>
+</div>
+    </div>
+</div>
+<div id="SearchResults" class="mt-4">
+    <!-- Search results will be displayed here -->
+</div>
+

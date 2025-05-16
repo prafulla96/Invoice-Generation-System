@@ -1,0 +1,115 @@
+﻿@model IEnumerable<WebApplication1.Models.Invoice>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>Invoice Generation System</h1>
+
+<h3>Invoices List</h3>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GemInvoiceNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompanyName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Qty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AmountInwords)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CGST)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SGST)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CGSTAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SGSTAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalAmountInWords)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GemInvoiceNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Items)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Qty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AmountInwords)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CGST)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SGST)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CGSTAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SGSTAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalAmountInWords)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Sno">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Sno">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Sno">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
