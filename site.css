@@ -1,0 +1,91 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+h1 {
+    text-align: center;
+    color: teal;
+    text-decoration: underline;
+}
+h2{
+    font-family:Arial;
+    color:teal;
+    text-decoration:underline;
+        
+}
+h4 {
+    font-family: Arial;
+    color:teal;
+    text-decoration: underline;
+}
+
+label {
+    
+    display: block;
+    margin-bottom: 8px;
+    color: black;
+}
+input {
+    width: 345%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right:4px;
+}
+select {
+    width: 345%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: teal;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 3px;
+    
+    
+}
+
+    button:hover {
+        background-color: darkslategrey;
+    }
+
+body {
+    margin-bottom: 60px;
+    font-family: Arial, sans-serif;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: coral;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
